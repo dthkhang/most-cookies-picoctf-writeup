@@ -5,9 +5,6 @@ TAG: **picoCTF 2021** , **Web Exploitation**
 
 <img width="547" alt="Ảnh chụp Màn hình 2023-11-03 lúc 14 37 10" src="https://github.com/dthkhang/most-cookies-picoctf-writeup/assets/98313915/7e093dfb-bb1a-4488-9ba5-f5ae9d56705b">
 
-<img width="455" alt="Ảnh chụp Màn hình 2023-11-03 lúc 16 17 56" src="https://github.com/dthkhang/most-cookies-picoctf-writeup/assets/98313915/712200b3-f5c8-45f3-870e-79477fa26e84">
-
-
 Ngay khi truy cập vào link, ta sẽ được Flask server cấp 1 session như sau:
 
 <img width="583" alt="Ảnh chụp Màn hình 2023-11-03 lúc 14 40 04" src="https://github.com/dthkhang/most-cookies-picoctf-writeup/assets/98313915/bbd3cd75-d1df-4471-a0c1-94b54913efba">
