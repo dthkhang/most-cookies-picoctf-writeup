@@ -37,7 +37,7 @@ Cái "admin" tui nhập không hợp lệ rồi, mà cái placeholder="snickerdo
 
 <img width="531" alt="Ảnh chụp Màn hình 2023-11-03 lúc 15 00 21" src="https://github.com/dthkhang/most-cookies-picoctf-writeup/assets/98313915/4e9f33c7-b692-48cf-a1b0-5f4931d33b98"><img width="662" alt="Ảnh chụp Màn hình 2023-11-03 lúc 14 59 47" src="https://github.com/dthkhang/most-cookies-picoctf-writeup/assets/98313915/4d481328-3796-47c3-9166-22e93ad5860e">
 
-À thì ra là cái value trong ô input được dùng để cấp session cho user, mà nãy tui nhập "admin" mà không được, suy ra Flask server có 1 value list để cấp session.
+À thì ra là cái value trong ô input được dùng để cấp session cho user, mà nãy tui nhập "admin" mà không được, suy ra Flask server có 1 secret list để cấp session, mà "admin" không có trong secret list nên không hợp lệ, và ngược lại thì chắc chắn tên con chó đó có trong secret list.
 
 Giờ check qua code thử.
 
@@ -71,9 +71,43 @@ Mình chỉ sửa được soucre code hoy, chứ đâu có push được lên s
    
 TÓM LẠI:
 
- - Đổi value của session thành admin để pass
-  
+ - Làm sao value của session thành admin để pass
 
+Sau 30s tìm kiếm thì tui tìm được 1 thư viên "Flask-Unsign", còn dùng làm gì thì Google nha, dài lắm rồi ~~
 
+Trong Flask-Unsign có 1 câu lệnh dùng để fake cái cookie theo ý mình mà vẫn secret key của Flask server
+
+<img width="752" alt="Ảnh chụp Màn hình 2023-11-03 lúc 15 42 24" src="https://github.com/dthkhang/most-cookies-picoctf-writeup/assets/98313915/28ad0a74-a21d-4486-badb-6a467ae62fa0">
+
+Nhưng secret key là gì? Ai biết -.- 
+
+Check lại code thử nhá
+
+<img width="458" alt="Ảnh chụp Màn hình 2023-11-03 lúc 15 47 49" src="https://github.com/dthkhang/most-cookies-picoctf-writeup/assets/98313915/7f2f51bc-55b3-4740-bcef-84a2f6ad8424">
+
+Oki, giờ thì đã biết secret key lấy random trong list :> 
+
+Giờ thì lưu tất cả item trong list vào 1 file, đặt gì cũng được (ex: cookie.txt)
+
+Đến phần tui thích nhất nè :> ta sẽ Brute Force để tìm secret key
+
+Dùng cái này để Brute Force nha, còn cách dùng thì Google :>
+
+**flask-unsign --wordlist cookie.txt --unsign --cookie 'eyJ2ZXJ5X2F1dGgiOiJibGFuayJ9.ZUS0mA.2tFVycHhO5gyPg0iBUUVc_j91HI' --no-literal-eval**
+
+<img width="1015" alt="Ảnh chụp Màn hình 2023-11-03 lúc 15 55 04" src="https://github.com/dthkhang/most-cookies-picoctf-writeup/assets/98313915/e115da66-409f-4eb5-b5c8-b18b115270ca">
+
+Sau khi có được secret key thì ta tiến hành fake cookie :>
+
+Câu lệnh như sau:
+
+**flask-unsign --sign --cookie "{'very_auth':'admin'}" --secret 'fortune'**
+
+<img width="697" alt="Ảnh chụp Màn hình 2023-11-03 lúc 15 59 18" src="https://github.com/dthkhang/most-cookies-picoctf-writeup/assets/98313915/1a84da0b-81bd-41c6-91f6-2fa7d0bf31ce">
+
+Giờ thì edit value session lại và Enter :> 
+Bùmm ~ đây là kết quả
+
+<img width="745" alt="Ảnh chụp Màn hình 2023-11-03 lúc 16 00 42" src="https://github.com/dthkhang/most-cookies-picoctf-writeup/assets/98313915/e236a50e-27da-4ff4-bd72-a0f60064987a">
 
 
